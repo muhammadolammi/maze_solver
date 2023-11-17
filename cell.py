@@ -10,8 +10,11 @@ class Cell:
         self._y1=None
         self._y2=None
         self._win=win
+        self.visited = False
 
     def draw(self, x1,y1,x2,y2,):
+        if self._win is None:
+            return
         self._x1=x1
         self._x2=x2
         self._y1=y1
@@ -22,12 +25,20 @@ class Cell:
         right_line = Line(Point(x2,y1), Point(x2,y2))
         if self.has_top_wall:
             self._win.draw_line(top_line, "black")
+        else:
+            self._win.draw_line(top_line, "white")
         if self.has_bottom_wall:
             self._win.draw_line(bottom_line, "black")
+        else:
+            self._win.draw_line(bottom_line, "white")
         if self.has_left_wall:
             self._win.draw_line(left_line,"black")
+        else:
+            self._win.draw_line(left_line, "white")
         if self.has_right_wall:
             self._win.draw_line(right_line, "black")
+        else:
+            self._win.draw_line(right_line, "white")
 
     def get_mid(self):
         x_mid = (self._x1 + self._x2)/2
@@ -65,7 +76,7 @@ class Cell:
         elif self._y2<to_cell._y2:
             line = Line(  Point(x_mid, y_mid), Point(x_mid, self._y2))
             self._win.draw_line(line, fill_color)
-            line = Line(Point(to_x_mid, to_cell._y1), Point(to_x_mid, to_y_mid) )
+            line = Line( Point(to_x_mid, to_y_mid) ,Point(to_x_mid, to_cell._y1),)
             self._win.draw_line(line, fill_color)
 
 
