@@ -26,6 +26,7 @@ class Maze:
         
         self._break_entrance_and_exit()
         self._break_walls_r()
+        # self._win.redraw()
         self._reset_cells_visited()
     
     #create cell for the input collumn and row
@@ -46,13 +47,13 @@ class Maze:
         x2 = x1 + self._cell_width
         y2 = y1 + self._cell_width
         self._cells[i][j].draw(x1,y1,x2,y2)
-        self._animate()
         
-    def _animate(self):
+        
+    def _animate(self, speed):
         if self._win is None:
             return
         self._win.redraw()
-        time.sleep(0.01)
+        time.sleep(speed)
     
     #break entrance and exit
     def _break_entrance_and_exit(self):
@@ -63,6 +64,7 @@ class Maze:
     
     #break random walls 
     def _break_walls_r(self, i=1,j=1):
+        
         self._cells[i][j].visited = True
         while True:
             index_to_visit =[]
@@ -83,9 +85,11 @@ class Maze:
                 self._draw_cell(i,j)
                 return 
             
+            
+            
             # randomly choose the next direction to go
-        
-            next_index = random.choice(index_to_visit)
+            direction_index = random.randrange(len(index_to_visit))
+            next_index = index_to_visit[direction_index]
 
             # knock out walls between this cell and the next cell(s)
             # right
@@ -107,6 +111,9 @@ class Maze:
 
             # recursively visit the next cell
             self._break_walls_r(next_index[0], next_index[1])
+        
+        
+        
             
     def _reset_cells_visited(self):
         for col in self._cells:
@@ -119,7 +126,7 @@ class Maze:
         
     
     def _solve_r(self, i,j):
-        self._animate()
+        self._animate(0.0005)
 
         # vist the current cell
         self._cells[i][j].visited = True
